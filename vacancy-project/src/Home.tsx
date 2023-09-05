@@ -100,13 +100,13 @@ function Home(): JSX.Element | null {
                         tagIds: selectedTags.map((tag) => tag.id)
                     }
                 )
-            }).then(text => text.json()).then(async () => {
-                await loadJobseekers()
+            }).then(text => text.json()).then(() => {
+                loadJobseekers()
             });
         }
     }
 
-    const handleSearch = (e: MouseEvent<HTMLButtonElement>) => {
+    const handleSearch = (e: MouseEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         let url: string = 'http://localhost:5225/jobseeker/matched'
