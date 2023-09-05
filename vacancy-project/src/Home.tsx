@@ -57,14 +57,12 @@ function Home(): JSX.Element | null {
     function loadJobTitle() {
         fetch('http://localhost:5225/job-title/').then(text => text.json()).then(data => {
             setJobTitles((data as TypeJobTitle[]))
-            // console.log(data)
         });
     }
 
     function loadJobseekers() {
         fetch('http://localhost:5225/jobseeker/').then(text => text.json()).then(data => {
             setJobseekers((data as TypeJobseeker[]))
-            // console.log(data as TypeJobseeker[])
         });
     }
 
@@ -86,22 +84,29 @@ function Home(): JSX.Element | null {
         let url: string = 'http://localhost:5225/jobseeker/'
         const data: FormData = new FormData(e.currentTarget);
 
-        if (selectedJobTitle != undefined && selectedTags.length > 0) {
+
+        if (selectedJobTitle != undefined && selectedTags.length > 0 && typeof data.get('firstName') != undefined &&
+            typeof data.get('lastName') != undefined && typeof data.get('email') != undefined) {
+
+            let jobseeker: TypeJobseeker = {
+                // @ts-ignore
+                firstname: data.get('firstName'),
+                // @ts-ignore
+                lastname: data.get('lastName'),
+                // @ts-ignore
+                email: data.get('email'),
+                jobTitleId: selectedJobTitle.id,
+                tagIds: selectedTags.map((tag) => tag.id)
+            }
+
             fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({
-                        firstname: data.get('firstName'),
-                        lastname: data.get('lastName'),
-                        email: data.get('email'),
-                        jobTitleId: selectedJobTitle.id,
-                        tagIds: selectedTags.map((tag) => tag.id)
-                    }
-                )
-            }).then(text => text.json()).then(() => {
-                loadJobseekers()
+                body: JSON.stringify(jobseeker)
+            }).then(() => {
+                setJobseekers([...jobseekers, jobseeker]);
             });
         }
     }
