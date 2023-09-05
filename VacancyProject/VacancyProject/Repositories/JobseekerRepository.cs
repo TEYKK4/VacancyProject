@@ -15,7 +15,7 @@ public class JobseekerRepository : IJobseekerRepository
     
     public async Task<IEnumerable<Jobseeker>> Get()
     {
-        return await _context.Jobseekers.Include(x => x.JobTitle).Include(x => x.JobseekerTags).ToArrayAsync();
+        return await _context.Jobseekers.ToArrayAsync();
     }
 
     public async Task<bool> Post(Jobseeker item)

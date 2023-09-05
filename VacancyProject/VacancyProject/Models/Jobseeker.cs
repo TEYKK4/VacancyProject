@@ -5,7 +5,6 @@ public class Jobseeker
     public int Id { get; set; }
     public string Firstname { get; set; } = null!;
     public string Lastname { get; set; } = null!;
-    public int Age { get; set; }
     public string Email { get; set; } = null!;
     public JobTitle JobTitle { get; set; } = null!;
     public int JobTitleId { get; set; }

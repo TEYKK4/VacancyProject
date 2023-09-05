@@ -1,10 +1,16 @@
-import {FormEvent, JSX, MouseEvent, useEffect, useState} from 'react'
-import List from '@mui/material/List'
+import {FormEvent, JSX, MouseEvent, SyntheticEvent, useEffect, useState} from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import Autocomplete from '@mui/material/Autocomplete'
+import Table from "@mui/material/Table";
+import Paper from "@mui/material/Paper";
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import TableCell from '@mui/material/TableCell'
+import TableBody from '@mui/material/TableBody'
 
 type TypeTag = {
     id: number,
@@ -22,16 +28,24 @@ type TypeJobseeker = {
     lastname: string,
     email: string,
     jobTitleId: number,
-    tags: TypeTag[]
+    tagIds: number[]
 }
 
 function Home(): JSX.Element | null {
 
-    async function loadTags() {
-        await fetch('http://localhost:5225/tag/').then(async text => await text.json()).then(data => {
+    const [tags, setTags] = useState<TypeTag[]>([]);
+    const [jobTitles, setJobTitles] = useState<TypeJobTitle[]>([]);
+    const [jobseekers, setJobseekers] = useState<TypeJobseeker[]>([]);
+    const [matchedJobseekers, setMatchedJobseekers] = useState<TypeJobseeker[]>([]);
+    const [selectedJobTitle, setSelectedJobTitle] = useState<TypeJobTitle>();
+    const [selectedTags, setSelectedTags] = useState<TypeTag[]>([]);
+    const [selectedJobTitleSearch, setSelectedJobTitleSearch] = useState<TypeJobTitle>();
+    const [selectedTagsSearch, setSelectedTagsSearch] = useState<TypeTag[]>([]);
+
+    function loadTags() {
+        fetch('http://localhost:5225/tag/').then(text => text.json()).then(data => {
             setTags((data as TypeTag[]))
         });
-
         // const response = fetch('http://localhost:5225/tag/')
         // const json: TypeTag[] = response.json()
         //
@@ -39,15 +53,18 @@ function Home(): JSX.Element | null {
         //
         // return json;
     }
-    async function loadJobTitle() {
-        await fetch('http://localhost:5225/job-title/').then(async text => await text.json()).then(data => {
+
+    function loadJobTitle() {
+        fetch('http://localhost:5225/job-title/').then(text => text.json()).then(data => {
             setJobTitles((data as TypeJobTitle[]))
+            // console.log(data)
         });
     }
 
-    async function loadJobseekers() {
-        await fetch('http://localhost:5225/jobseeker/').then(async text => await text.json()).then(data => {
-            setJobTitles((data as TypeJobTitle[]))
+    function loadJobseekers() {
+        fetch('http://localhost:5225/jobseeker/').then(text => text.json()).then(data => {
+            setJobseekers((data as TypeJobseeker[]))
+            // console.log(data as TypeJobseeker[])
         });
     }
 
@@ -63,52 +80,69 @@ function Home(): JSX.Element | null {
         loadJobseekers();
     }, []);
 
-    const [tags, setTags] = useState<TypeTag[]>([]);
-    const [jobTitles, setJobTitles] = useState<TypeJobTitle[]>([]);
-    const [jobseekers, setJobseekers] = useState<TypeJobseeker[]>([]);
-
     const handleRegister = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         let url: string = 'http://localhost:5225/jobseeker/'
         const data: FormData = new FormData(e.currentTarget);
 
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                    "id": 1,
-                    "firstname": "Имя",
-                    "lastname": "Фамилия",
-                    "email": "example@email.com",
-                    "jobTitleId": 1
-                }
-            )
-        }).then(text => text.json()).then(() => {
-            setJobseekers
-        });
-
-        console.log({
-            firstName: data.get('firstName'),
-            lastName: data.get('lastName'),
-            age: data.get('age'),
-            email: data.get('email'),
-            jobTitle: data.get('jobTitle'),
-            tags: data.get('tags'),
-        });
-
-        console.log(tags)
+        if (selectedJobTitle != undefined && selectedTags.length > 0) {
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                        firstname: data.get('firstName'),
+                        lastname: data.get('lastName'),
+                        email: data.get('email'),
+                        jobTitleId: selectedJobTitle.id,
+                        tagIds: selectedTags.map((tag) => tag.id)
+                    }
+                )
+            }).then(text => text.json()).then(async () => {
+                await loadJobseekers()
+            });
+        }
     }
 
-    const handleSearchButton = (e: MouseEvent<HTMLButtonElement>) => {
+    const handleSearch = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
+
+        let url: string = 'http://localhost:5225/jobseeker/matched'
+
+        if (selectedJobTitleSearch != undefined && selectedTagsSearch.length > 0) {
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                        jobTitleId: selectedJobTitleSearch.id,
+                        tagIds: selectedTagsSearch.map((tag) => tag.id)
+                    }
+                )
+            }).then(text => text.json()).then(data => setMatchedJobseekers((data as TypeJobseeker[])));
+        }
+    }
+
+    function getTags(jobseeker: TypeJobseeker): string {
+        let tagsString: string = '';
+        for (const item of jobseeker.tagIds) {
+            tagsString += tags.find(x => x.id == item)!.name;
+            tagsString += ' ';
+        }
+
+        return tagsString
+    }
+
+    if (!tags || !jobseekers || !jobTitles) {
+        return <div>loading</div>
     }
 
     return (
         <Box>
-            <Box border={1} sx={{m: 1}}>
+            <Box sx={{m: 1}} display="flex" flexDirection="row">
                 <Box component='form' onSubmit={handleRegister} sx={{width: 1 / 4}}>
                     <TextField
                         sx={{mt: 1}}
@@ -139,15 +173,6 @@ function Home(): JSX.Element | null {
                         fullWidth
                         required
                     />
-                    <TextField
-                        sx={{mt: 1}}
-                        id="age"
-                        name="age"
-                        label="Age"
-                        autoComplete="age"
-                        fullWidth
-                        required
-                    />
                     <FormControl fullWidth sx={{mt: 1}}>
                         <Autocomplete
                             id="jobTitle"
@@ -155,6 +180,13 @@ function Home(): JSX.Element | null {
                             getOptionLabel={(jobTitle) => jobTitle.name}
                             renderInput={(params) => <TextField {...params} label="Job title"/>}
                             disablePortal
+                            onChange={                            //@ts-ignore
+                                (e, selectedJobTitle: TypeJobTitle | null) => {
+                                    if (selectedJobTitle != null) {
+                                        setSelectedJobTitle(selectedJobTitle)
+                                    }
+                                }}
+
                         />
                     </FormControl>
 
@@ -167,6 +199,13 @@ function Home(): JSX.Element | null {
                             disablePortal
                             multiple
                             disableCloseOnSelect
+                            onChange={
+                                // @ts-ignore
+                                (e: SyntheticEvent<Element, Event>, selectedTags: TypeTag[]) => {
+                                    if (selectedTags != null) {
+                                        setSelectedTags(selectedTags);
+                                    }
+                                }}
                         />
                     </FormControl>
                     <Button
@@ -178,10 +217,38 @@ function Home(): JSX.Element | null {
                         Register
                     </Button>
                 </Box>
+
+                <TableContainer sx={{ml: 5}} component={Paper}>
+                    <Table aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Surname</TableCell>
+                                <TableCell align="right">Email</TableCell>
+                                <TableCell align="right">Job Title</TableCell>
+                                <TableCell align="right">Tags</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {jobseekers.map((jobseeker) => (
+                                <TableRow
+                                    key={jobseeker.firstname}
+                                    sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                >
+                                    <TableCell component="th" scope="row">{jobseeker.firstname}</TableCell>
+                                    <TableCell component="th" scope="row">{jobseeker.lastname}</TableCell>
+                                    <TableCell align="right">{jobseeker.email}</TableCell>
+                                    <TableCell align="right">{jobTitles.find(x => x.id == jobseeker.jobTitleId)!.name}</TableCell>
+                                    <TableCell align="right">{getTags(jobseeker)}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Box>
 
-            <Box border={1} sx={{m: 1}}>
-                <Box component='form' sx={{width: 1 / 4}}>
+            <Box sx={{m: 1}} display="flex" flexDirection="row">
+                <Box component='form' onSubmit={handleSearch} sx={{width: 1 / 4}}>
                     <FormControl fullWidth sx={{mt: 1}}>
                         <Autocomplete
                             id="jobTitle"
@@ -189,6 +256,13 @@ function Home(): JSX.Element | null {
                             getOptionLabel={(jobTitle) => jobTitle.name}
                             renderInput={(params) => <TextField {...params} label="Job title"/>}
                             disablePortal
+                            onChange={
+                                //@ts-ignore
+                                (e, selectedJobTitle: TypeJobTitle | null) => {
+                                    if (selectedJobTitle != null) {
+                                        setSelectedJobTitleSearch(selectedJobTitle)
+                                    }
+                                }}
                         />
                     </FormControl>
 
@@ -201,6 +275,13 @@ function Home(): JSX.Element | null {
                             disablePortal
                             multiple
                             disableCloseOnSelect
+                            onChange={
+                                // @ts-ignore
+                                (e: SyntheticEvent<Element, Event>, selectedTags: TypeTag[]) => {
+                                    if (selectedTags != null) {
+                                        setSelectedTagsSearch(selectedTags);
+                                    }
+                                }}
                         />
                     </FormControl>
                     <Button
@@ -208,16 +289,39 @@ function Home(): JSX.Element | null {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        onClick={handleSearchButton}
                     >
                         Search
                     </Button>
                 </Box>
+
+                <TableContainer sx={{ml: 5}} component={Paper}>
+                    <Table aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Surname</TableCell>
+                                <TableCell align="right">Email</TableCell>
+                                <TableCell align="right">Job Title</TableCell>
+                                <TableCell align="right">Tags</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {matchedJobseekers.map((jobseeker) => (
+                                <TableRow
+                                    key={jobseeker.firstname}
+                                    sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                >
+                                    <TableCell component="th" scope="row">{jobseeker.firstname}</TableCell>
+                                    <TableCell component="th" scope="row">{jobseeker.lastname}</TableCell>
+                                    <TableCell align="right">{jobseeker.email}</TableCell>
+                                    <TableCell align="right">{jobTitles.find(x => x.id == jobseeker.jobTitleId)!.name}</TableCell>
+                                    <TableCell align="right">{getTags(jobseeker)}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Box>
-
-            <List>
-
-            </List>
         </Box>
     )
 }

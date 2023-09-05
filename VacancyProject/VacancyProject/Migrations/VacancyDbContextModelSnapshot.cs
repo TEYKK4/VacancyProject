@@ -54,9 +54,6 @@ namespace VacancyProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Age")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
