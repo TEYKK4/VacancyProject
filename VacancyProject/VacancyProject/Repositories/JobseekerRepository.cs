@@ -39,8 +39,18 @@ public class JobseekerRepository : IJobseekerRepository
         return await _context.SaveChangesAsync() >= 1;
     }
 
-    public Task<IEnumerable<Jobseeker>> GetMatched(JobTitle jobTitle, Tag tag)
+    public async Task<IEnumerable<Jobseeker>> GetMatched(int jobTitleId, IEnumerable<int> tagIds)
     {
-        throw new NotImplementedException();
+        var jobseekers = await Get();
+        
+        var jobseekerTags = await _context.JobseekerTags.ToArrayAsync();
+        
+        return jobseekers.Where(x => x.JobTitleId == jobTitleId).OrderBy(x =>
+        {
+            var index = tagIds.ToList().IndexOf(jobseekerTags.Where(y => y.JobseekerId == x.Id).
+                Select(y => y.TagId).FirstOrDefault());
+            
+            return index == -1 ? int.MaxValue : index;
+        });
     }
 }

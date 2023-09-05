@@ -75,17 +75,17 @@ app.MapGet("jobseeker/", async (IJobseekerRepository jobseekerRepository, ITagRe
 
 app.MapPost("jobseeker/matched", async ([FromBody] JobseekerRequest jobseekerForSearch, IJobseekerRepository jobseekerRepository, ITagRepository tagRepository) =>
 {
-    if (await jobseekerRepository.Get() is { } jobseekers)
+    if (await jobseekerRepository.GetMatched(jobseekerForSearch.JobTitleId, jobseekerForSearch.TagIds) is { } orderedJobseekers)
     {
-        var jobseekerTags = await tagRepository.GetIds();
-        
-        var orderedJobseekers = jobseekers.Where(x => x.JobTitleId == jobseekerForSearch.JobTitleId).OrderBy(x =>
-        {
-            var index = jobseekerForSearch.TagIds.ToList().IndexOf(jobseekerTags.Where(y => y.JobseekerId == x.Id).
-                Select(y => y.TagId).FirstOrDefault());
-            
-            return index == -1 ? int.MaxValue : index;
-        });
+        // var jobseekerTags = await tagRepository.GetIds();
+        //
+        // var orderedJobseekers = jobseekers.Where(x => x.JobTitleId == jobseekerForSearch.JobTitleId).OrderBy(x =>
+        // {
+        //     var index = jobseekerForSearch.TagIds.ToList().IndexOf(jobseekerTags.Where(y => y.JobseekerId == x.Id).
+        //         Select(y => y.TagId).FirstOrDefault());
+        //     
+        //     return index == -1 ? int.MaxValue : index;
+        // });
         // var orderedJobseekers = jobseekers.Where(x => x.JobTitleId == jobseekerForSearch.JobTitleId).OrderBy(x =>
         // {
         //     var firstElement = x.JobseekerTags.Select(y => y.TagId).FirstOrDefault();

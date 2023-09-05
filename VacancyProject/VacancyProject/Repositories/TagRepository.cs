@@ -22,11 +22,6 @@ public class TagRepository : ITagRepository
     {
         return await _context.JobseekerTags.Where(x => x.JobseekerId == jobseekerId).Select(x => x.TagId).ToArrayAsync();
     }
-    
-    public async Task<IEnumerable<JobseekerTag>> GetIds()
-    {
-        return await _context.JobseekerTags.ToArrayAsync();
-    }
 
     public async Task<bool> Post(Tag item)
     {
