@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "CYy9OZ23sdyFJvMPnXm7E0KdNxLKACWC+4ZpALcPt8Ne3MB9LeTNpGJZR5Rj2Lv6QMR/C9RVlWtcLP3GfiAPRA==",
+  "dgSpecHash": "J36Fqu+xHxjEY9YSyPITngp7K4GN8Q2WaMyNkxwB+gTZbTCHiMUUfamJlgSDKTSjwotYgat0NZVLf/MYkiMBeg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\1\\Desktop\\ReactProjects\\VacancyProject\\VacancyProject\\VacancyProject\\VacancyProject.csproj",
+  "projectFilePath": "C:\\Users\\1\\Desktop\\Portfolio Projects\\VacancyProject\\VacancyProject\\VacancyProject\\VacancyProject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\1\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.10\\microsoft.aspnetcore.openapi.7.0.10.nupkg.sha512",

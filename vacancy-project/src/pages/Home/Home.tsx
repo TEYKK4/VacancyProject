@@ -46,12 +46,6 @@ function Home(): JSX.Element | null {
         fetch('http://localhost:5225/tag/').then(text => text.json()).then(data => {
             setTags((data as TypeTag[]))
         });
-        // const response = fetch('http://localhost:5225/tag/')
-        // const json: TypeTag[] = response.json()
-        //
-        // console.log(json);
-        //
-        // return json;
     }
 
     function loadJobTitle() {
