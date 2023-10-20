@@ -1,13 +1,19 @@
-﻿using VacancyProject.Repositories;
+﻿using Carter;
+using VacancyProject.Repositories;
 
 namespace VacancyProject.Endpoints;
 
-public static class TagsEndpoints
+public class TagsEndpoints : ICarterModule
 {
-    public static void MapTagsEndpoints(this IEndpointRouteBuilder app)
+    public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("tags/", GetTag);
     }
+    
+    // public static void MapTagsEndpoints(this IEndpointRouteBuilder app)
+    // {
+    //     app.MapGet("tags/", GetTag);
+    // }
 
     private static async Task<IResult> GetTag(ITagRepository repository)
     {

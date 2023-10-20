@@ -136,3 +136,5 @@ C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProje
 C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\VacancyProject.pdb
 C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\VacancyProject.genruntimeconfig.cache
 C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\ref\VacancyProject.dll
+C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\bin\Debug\net7.0\Carter.dll
+C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\bin\Debug\net7.0\FluentValidation.dll

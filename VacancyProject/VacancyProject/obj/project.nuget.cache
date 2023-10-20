@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "J36Fqu+xHxjEY9YSyPITngp7K4GN8Q2WaMyNkxwB+gTZbTCHiMUUfamJlgSDKTSjwotYgat0NZVLf/MYkiMBeg==",
+  "dgSpecHash": "Ki0B0Ng55N5jVUyMWSLaXbtEohFU9fKbnW8jydclo/X1qIFggUrth2X65QsGJb9Ksi1r7gSNUrAowtVjA93d2g==",
   "success": true,
   "projectFilePath": "C:\\Users\\1\\Desktop\\Portfolio Projects\\VacancyProject\\VacancyProject\\VacancyProject\\VacancyProject.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\1\\.nuget\\packages\\carter\\7.2.0\\carter.7.2.0.nupkg.sha512",
+    "C:\\Users\\1\\.nuget\\packages\\fluentvalidation\\11.0.1\\fluentvalidation.11.0.1.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.10\\microsoft.aspnetcore.openapi.7.0.10.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.10\\microsoft.data.sqlite.core.7.0.10.nupkg.sha512",

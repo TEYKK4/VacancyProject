@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+using Carter;
 using Microsoft.EntityFrameworkCore;
 using VacancyProject.Databases;
-using VacancyProject.DTO;
 using VacancyProject.Endpoints;
-using VacancyProject.Models;
 using VacancyProject.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthorization();
 builder.Services.AddCors();
+builder.Services.AddCarter();
 
 builder.Services.AddScoped<IJobseekerRepository, JobseekerRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
@@ -180,8 +179,11 @@ app.UseCors(x =>
 //     return Results.BadRequest();
 // });
 
-app.MapJobseekerEndpoints();
-app.MapTagsEndpoints();
-app.MapJobTitleEndpoints();
+
+// app.MapJobseekerEndpoints();
+// app.MapTagsEndpoints();
+// app.MapJobTitleEndpoints();
+
+app.MapCarter();
 
 app.Run();

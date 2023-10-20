@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Carter;
+using Microsoft.AspNetCore.Mvc;
 using VacancyProject.DTO;
 using VacancyProject.Models;
 using VacancyProject.Repositories;
 
 namespace VacancyProject.Endpoints;
 
-public static class JobseekerEndpoints
+public class JobseekerEndpoints : ICarterModule
 {
-    public static void MapJobseekerEndpoints(this IEndpointRouteBuilder app)
+    public void AddRoutes(IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("jobseekers/");
-
+        
         group.MapPost("", CreateJobseeker);
         
         group.MapPost("matched", MatchedJobseeker);
@@ -21,6 +22,21 @@ public static class JobseekerEndpoints
         
         group.MapPut("", UpdateJobseeker);
     }
+    
+    // public static void MapJobseekerEndpoints(this IEndpointRouteBuilder app)
+    // {
+    //     var group = app.MapGroup("jobseekers/");
+    //
+    //     group.MapPost("", CreateJobseeker);
+    //     
+    //     group.MapPost("matched", MatchedJobseeker);
+    //     
+    //     group.MapGet("", GetJobseeker);
+    //     
+    //     group.MapDelete("", DeleteJobseeker);
+    //     
+    //     group.MapPut("", UpdateJobseeker);
+    // }
 
     private static async Task<IResult> DeleteJobseeker([FromBody] Jobseeker jobseeker, IJobseekerRepository repository)
     {
