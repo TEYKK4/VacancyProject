@@ -130,7 +130,6 @@ C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProje
 C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\staticwebassets.build.json
 C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\staticwebassets.development.json
 C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\scopedcss\bundle\VacancyProject.styles.css
-C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\VacancyProject.csproj.CopyComplete
 C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\VacancyProject.dll
 C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\refint\VacancyProject.dll
 C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\VacancyProject.pdb
@@ -138,3 +137,8 @@ C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProje
 C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\ref\VacancyProject.dll
 C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\bin\Debug\net7.0\Carter.dll
 C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\bin\Debug\net7.0\FluentValidation.dll
+C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\bin\Debug\net7.0\VacancyProject.staticwebassets.endpoints.json
+C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\VacancyProject.sourcelink.json
+C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\staticwebassets.build.endpoints.json
+C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\staticwebassets\msbuild.VacancyProject.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\1\Desktop\Portfolio Projects\VacancyProject\VacancyProject\VacancyProject\obj\Debug\net7.0\VacancyP.B04D6BF9.Up2Date
